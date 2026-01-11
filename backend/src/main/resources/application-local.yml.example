@@ -1,0 +1,4 @@
+app:
+  cors:
+    # ローカル開発用
+    allowed-origins: "http://localhost:5173"
