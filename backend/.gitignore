@@ -72,4 +72,5 @@ application-*.properties
 *.bak
 HELP.md
 
-# ===== Local-only outputs for this project =====
+# Spring local profile overrides
+src/main/resources/application-local.yml
