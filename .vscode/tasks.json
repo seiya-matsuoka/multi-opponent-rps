@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "backend: test",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": "./gradlew",
+      "args": ["test"],
+      "problemMatcher": [],
+      "group": "test",
+      "windows": {
+        "command": "gradlew.bat"
+      }
+    },
+    {
+      "label": "backend: bootRun",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": "./gradlew",
+      "args": ["bootRun"],
+      "problemMatcher": [],
+      "windows": {
+        "command": "gradlew.bat"
+      }
+    },
+    {
+      "label": "backend: clean",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": "./gradlew",
+      "args": ["clean"],
+      "problemMatcher": [],
+      "windows": {
+        "command": "gradlew.bat"
+      }
+    }
+  ]
+}
