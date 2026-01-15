@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Paper, Stack, Typography } from '@mui/material';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Container maxWidth="sm" className="py-6">
+      <Paper elevation={2} className="p-4 sm:p-6">
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography variant="h5" component="h1">
+              Multi Opponent RPS
+            </Typography>
+          </Stack>
 
-export default App
+          <Typography variant="body1">未実装</Typography>
+
+          <Typography variant="body2" color="text.secondary">
+            未実装
+          </Typography>
+        </Stack>
+      </Paper>
+    </Container>
+  );
+}
