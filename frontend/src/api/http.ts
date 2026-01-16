@@ -82,6 +82,7 @@ export async function requestJson<T>(params: {
   body?: unknown;
   timeoutMs?: number;
 }): Promise<T> {
+  // baseURL未設定は設定ミスの代表例なので、ここで早期に分かりやすく落とす
   const baseUrl = ENV.apiBaseUrl;
 
   if (!baseUrl) {
@@ -92,13 +93,18 @@ export async function requestJson<T>(params: {
     });
   }
 
+  // baseURL と path を結合して最終URLを作る（末尾/先頭のスラッシュゆらぎを吸収）
   const url = joinUrl(baseUrl, params.path);
 
+  // タイムアウト用に AbortController を用意。fetch はデフォルトでタイムアウトが無いので、こちらで制御する
   const controller = new AbortController();
   const timeoutMs = params.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+
+  // タイムアウト到達で abort させる（必ず finally で clearTimeout する）
   const timerId = window.setTimeout(() => controller.abort(), timeoutMs);
 
   try {
+    // JSON API 前提なので content-type は application/json を固定 ＋ body が無いケース（GET 等）は undefined にして送らない
     const res = await fetch(url, {
       method: params.method,
       headers: {
@@ -108,11 +114,14 @@ export async function requestJson<T>(params: {
       signal: controller.signal,
     });
 
+    // レスポンスが JSON の場合のみ読み取る（エラー時にサーバーが JSON で詳細を返してきた場合に、先に読んでおきエラーメッセージを整形しやすくする
     const json = await tryReadJson(res);
 
+    // HTTPエラー（res.ok=false）の場合は ApiError に正規化して throw
     if (!res.ok) {
-      // message の候補をバックエンドの形式に依存しすぎないよう安全に拾う
       const body = (json ?? {}) as ApiErrorBody;
+
+      // message 候補を順に拾う（バックエンドのエラー形式に依存しすぎないため Optional中心）
       const message =
         body.message ??
         body.error ??
@@ -122,14 +131,14 @@ export async function requestJson<T>(params: {
         status: res.status,
         url,
         message,
-        rawBody: json,
+        rawBody: json, // デバッグ用に生のJSONも保持しておく
       });
     }
 
     // 正常系：JSONでないケースは想定しないが、念のため unknown を許容
     return json as T;
   } catch (e) {
-    // AbortError（タイムアウト）を分かりやすくする
+    // タイムアウト（AbortError）を ApiError に正規化（status=0 は通信/環境起因のエラーとして扱う）
     if (e instanceof DOMException && e.name === 'AbortError') {
       throw new ApiError({
         status: 0,
@@ -137,8 +146,11 @@ export async function requestJson<T>(params: {
         message: `タイムアウトしました（${timeoutMs}ms）: ${params.method} ${params.path}`,
       });
     }
+
+    // それ以外のエラーはそのまま投げる（ネットワーク切断など fetch 由来の例外がここに入る）
     throw e;
   } finally {
+    // タイマーの後始末（リーク防止）
     window.clearTimeout(timerId);
   }
 }
