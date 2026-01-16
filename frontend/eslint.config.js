@@ -34,6 +34,13 @@ export default [
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
+  // .d.ts（型宣言ファイル）は宣言すること自体が目的であり、no-unused-vars で未使用扱いされても問題ないためOFFにする
+  {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
   // Prettierと競合する整形系ルールは無効化
   prettierConfig,
 ];
