@@ -12,9 +12,10 @@ export function HandSelector(props: {
   const { value, disabled, onChange } = props;
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="small">
       <InputLabel id="hand-label">自分の手</InputLabel>
       <Select
+        size="small"
         labelId="hand-label"
         value={value}
         label="自分の手"

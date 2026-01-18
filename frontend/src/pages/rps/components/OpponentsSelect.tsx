@@ -16,9 +16,10 @@ export function OpponentsSelect(props: {
   const options = Array.from({ length: 10 }, (_, i) => i + 1);
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="small">
       <InputLabel id="opponents-label">相手の人数</InputLabel>
       <Select
+        size="small"
         labelId="opponents-label"
         value={value}
         label="相手の人数"

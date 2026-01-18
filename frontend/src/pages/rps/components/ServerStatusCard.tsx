@@ -16,20 +16,21 @@ export function ServerStatusCard(props: {
   const { loading, status, onWarmup } = props;
 
   return (
-    <Paper variant="outlined" className="p-3 sm:p-4">
-      <Stack direction={'row'} spacing={2} alignItems={'center'} justifyContent="space-between">
-        <Stack spacing={0.5}>
-          <Typography variant="subtitle1">サーバー起動ボタン</Typography>
-        </Stack>
+    <Paper variant="outlined" className="p-2 sm:p-3">
+      <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+        <Typography variant="body2" className="whitespace-nowrap">
+          サーバー起動ボタン
+        </Typography>
 
-        <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end">
-          {loading && <CircularProgress size={20} />}
+        <Stack direction="row" spacing={1} alignItems="center">
+          {loading && <CircularProgress size={16} />}
           {!loading && status === 'ok' && <Chip label="OK" size="small" color="success" />}
           {!loading && status === 'error' && <Chip label="ERROR" size="small" color="error" />}
 
           <Button
+            size="small"
             variant="contained"
-            startIcon={<LocalFireDepartmentIcon />}
+            startIcon={<LocalFireDepartmentIcon fontSize="small" />}
             onClick={onWarmup}
             disabled={loading}
           >

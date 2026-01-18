@@ -19,19 +19,22 @@ export function ControlsCard(props: {
   const { hand, opponents, disabled, running, onChangeHand, onChangeOpponents, onRun } = props;
 
   return (
-    <Paper variant="outlined" className="p-3 sm:p-4">
-      <Stack spacing={2}>
-        <Typography variant="subtitle1">対戦条件</Typography>
+    <Paper variant="outlined" className="p-2 sm:p-3">
+      <Stack spacing={1.5}>
+        <Typography variant="body2">対戦条件</Typography>
 
-        <Stack direction={'row'} spacing={2}>
+        <Stack direction="row" spacing={1}>
           <HandSelector value={hand} disabled={disabled} onChange={onChangeHand} />
           <OpponentsSelect value={opponents} disabled={disabled} onChange={onChangeOpponents} />
         </Stack>
 
         <Box className="flex justify-end">
           <Button
+            size="small"
             variant="contained"
-            startIcon={running ? <CircularProgress size={18} /> : <PlayArrowIcon />}
+            startIcon={
+              running ? <CircularProgress size={16} /> : <PlayArrowIcon fontSize="small" />
+            }
             onClick={onRun}
             disabled={disabled}
           >
