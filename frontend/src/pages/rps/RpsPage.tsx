@@ -32,37 +32,39 @@ export function RpsPage() {
   const controlsDisabled = !canRunRps;
 
   return (
-    <Container maxWidth="md" className="py-6">
-      <Paper elevation={2} className="p-4 sm:p-6">
-        <Stack spacing={3}>
-          {/* Header */}
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="h5" component="h1">
+    <div className="h-dvh overflow-hidden">
+      <Container maxWidth="md" className="flex h-full flex-col py-4">
+        <Paper elevation={2} className="flex min-h-0 flex-1 flex-col p-3 sm:p-4">
+          <Stack spacing={2} className="flex min-h-0 flex-1 flex-col">
+            {/* Header */}
+            <Typography variant="h6" component="h1">
               Multi Opponent RPS
             </Typography>
+
+            {/* Warmup */}
+            <ServerStatusCard loading={warmupLoading} status={warmupStatus} onWarmup={warmup} />
+
+            {/* Error */}
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+
+            {/* Controls */}
+            <ControlsCard
+              hand={hand}
+              opponents={opponents}
+              disabled={controlsDisabled}
+              running={rpsLoading}
+              onChangeHand={setHand}
+              onChangeOpponents={setOpponents}
+              onRun={runRps}
+            />
+
+            {/* Results */}
+            <div className="min-h-0 flex-1">
+              <ResultsCard result={rpsResult} />
+            </div>
           </Stack>
-
-          {/* Warmup */}
-          <ServerStatusCard loading={warmupLoading} status={warmupStatus} onWarmup={warmup} />
-
-          {/* Error */}
-          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-
-          {/* Controls */}
-          <ControlsCard
-            hand={hand}
-            opponents={opponents}
-            disabled={controlsDisabled}
-            running={rpsLoading}
-            onChangeHand={setHand}
-            onChangeOpponents={setOpponents}
-            onRun={runRps}
-          />
-
-          {/* Results */}
-          <ResultsCard result={rpsResult} />
-        </Stack>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+    </div>
   );
 }
