@@ -21,9 +21,9 @@ export function HandSelector(props: {
         disabled={disabled}
         onChange={(e) => onChange(e.target.value as RpsHand)}
       >
-        <MenuItem value="ROCK">グー</MenuItem>
-        <MenuItem value="PAPER">パー</MenuItem>
-        <MenuItem value="SCISSORS">チョキ</MenuItem>
+        <MenuItem value="ROCK">ROCK</MenuItem>
+        <MenuItem value="PAPER">PAPER</MenuItem>
+        <MenuItem value="SCISSORS">SCISSORS</MenuItem>
       </Select>
     </FormControl>
   );
