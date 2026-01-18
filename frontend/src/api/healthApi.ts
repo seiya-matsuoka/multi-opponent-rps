@@ -12,5 +12,6 @@ export async function getHealth(): Promise<HealthResponse> {
   return requestJson<HealthResponse>({
     method: 'GET',
     path: '/api/health',
+    timeoutMs: 60_000,
   });
 }

@@ -12,5 +12,6 @@ export async function postRps(req: RpsRequest): Promise<RpsResponse> {
     method: 'POST',
     path: '/api/rps',
     body: req,
+    timeoutMs: 60_000,
   });
 }
