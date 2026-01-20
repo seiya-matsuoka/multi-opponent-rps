@@ -108,7 +108,8 @@ export function createRequestJson(deps: {
       throw new ApiError({
         status: 0,
         url: params.path,
-        message: 'VITE_API_BASE_URL が未設定です（環境変数を確認してください）',
+        message:
+          '接続先の設定が見つかりませんでした。環境変数（VITE_API_BASE_URL）を確認してください。',
       });
     }
 
@@ -165,7 +166,7 @@ export function createRequestJson(deps: {
         throw new ApiError({
           status: 0,
           url,
-          message: `タイムアウトしました（${timeoutMs}ms）: ${params.method} ${params.path}`,
+          message: `サーバーの起動に時間がかかっています。しばらく待ってからもう一度お試しください。`,
         });
       }
 
