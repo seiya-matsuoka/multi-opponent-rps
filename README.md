@@ -33,3 +33,144 @@
 - DB：使用なし（ステートレス）
 
 ---
+
+## デモ
+
+[![Open Demo](https://img.shields.io/badge/demo-Vercel-000000?logo=vercel)](https://multi-opponent-rps.vercel.app/)
+
+- [`アプリURL`](https://multi-opponent-rps.vercel.app/)（Vercel）：`https://multi-opponent-rps.vercel.app/`
+
+---
+
+## できること
+
+- `/api/health` によるサーバー起動確認（Render のコールドスタート対策）
+  - 画面初回表示で自動 warmup（`/api/health` を呼び出し）
+- 自分の手（ROCK / PAPER / SCISSORS）と相手人数（1〜10）を選んで `/api/rps` を実行
+- 相手ごとの結果（WIN / LOSE / DRAW）を一覧表示
+- 勝敗集計を表示
+- 1 画面完結 UI（結果一覧のみスクロール）
+
+---
+
+## 前提条件
+
+- Java 21（バックエンド）
+- Node.js（フロントエンド）
+- pnpm（`frontend/` は pnpm 前提）
+
+---
+
+## クイックスタート
+
+### 1) バックエンド起動
+
+```bash
+cd backend
+./gradlew bootRun
+```
+
+- 既定：`http://localhost:8080`
+
+### 2) フロントエンド起動
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+- 既定：`http://localhost:5173`
+
+---
+
+## 環境変数
+
+### フロント（Vite）
+
+- `VITE_API_BASE_URL`
+  - ローカル例：`http://localhost:8080`
+  - 本番例：Render の API URL
+
+例：`VITE_API_BASE_URL=http://localhost:8080`
+
+### バックエンド（Spring Boot）
+
+- `ALLOWED_ORIGINS`
+  - 許可するフロントのオリジン（例：Vercel の URL）
+  - ローカル開発では `http://localhost:5173` を含める想定
+
+例：`ALLOWED_ORIGINS=http://localhost:5173,https://<YOUR_VERCEL_APP>.vercel.app`
+
+---
+
+## テスト
+
+### フロント（Vitest）
+
+```bash
+cd frontend
+pnpm test
+```
+
+### バック（JUnit）
+
+```bash
+cd backend
+./gradlew test
+```
+
+---
+
+## ディレクトリ構成（概要）
+
+```bash
+.
+├─ backend/      # Spring Boot API
+├─ frontend/     # Vite + React UI
+└─ docs/         # 仕様・設計など
+```
+
+---
+
+## デプロイ（概要）
+
+### バックエンド（Render）
+
+- Dockerfile でビルドして起動
+- 環境変数に `ALLOWED_ORIGINS` を設定（Vercel の URL を許可）
+
+### フロント（Vercel）
+
+- `VITE_API_BASE_URL` を Render の URL に設定してデプロイ
+
+---
+
+## 技術スタック
+
+### Backend
+
+- Java 21
+- Spring Boot（REST API）
+- Gradle
+- JUnit
+
+### Frontend
+
+- TypeScript
+- React
+- Vite
+- Material UI（MUI）
+- Tailwind CSS
+
+### Test
+
+- JUnit（バックエンドのテスト）
+- Vitest（フロントのユニットテスト）
+
+### Deploy
+
+- Render（バックエンド：Dockerfile デプロイ）
+- Vercel（フロントエンド：SPA デプロイ）
+
+---
