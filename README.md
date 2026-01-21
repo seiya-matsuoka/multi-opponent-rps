@@ -174,3 +174,10 @@ cd backend
 - Vercel（フロントエンド：SPA デプロイ）
 
 ---
+
+## ドキュメント
+
+ドキュメントは `/docs` にまとめています。
+
+- 仕様/機能：[`docs/01_spec-summary.md`](docs/01_spec-summary.md)
+- 設計：[`docs/02_architecture.md`](docs/02_architecture.md)
