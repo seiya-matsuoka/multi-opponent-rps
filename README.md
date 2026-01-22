@@ -42,6 +42,46 @@
 
 ---
 
+## スクリーンショット
+
+1. サーバー起動確認中
+   ![startup](docs/screenshots/01_server-startup.png)
+
+2. サーバー起動失敗
+   ![failed](docs/screenshots/02_server-startup-failed.png)
+
+3. サーバー起動成功
+   ![successful](docs/screenshots/03_server-startup-successful.png)
+
+4. じゃんけん実行結果
+   ![result](docs/screenshots/04_result.png)
+
+5. じゃんけん実行結果（相手 10 人）
+   ![10-people](docs/screenshots/05_result-10-people.png)
+
+6. スマホ画面
+<table>
+  <tr>
+    <td align="center">
+      <a href="./docs/screenshots/06_smartphone-1.png">
+        <img src="./docs/screenshots/06_smartphone-1.png" width="220">
+      </a>
+    </td>
+    <td align="center">
+      <a href="./docs/screenshots/07_smartphone-2.png">
+        <img src="./docs/screenshots/07_smartphone-2.png" width="220">
+      </a>
+    </td>
+    <td align="center">
+      <a href="./docs/screenshots/08_smartphone-3.png">
+        <img src="./docs/screenshots/08_smartphone-3.png" width="220">
+      </a>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## できること
 
 - `/api/health` によるサーバー起動確認（Render のコールドスタート対策）
