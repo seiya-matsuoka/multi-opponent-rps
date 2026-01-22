@@ -64,17 +64,17 @@
   <tr>
     <td align="center">
       <a href="./docs/screenshots/06_smartphone-1.png">
-        <img src="./docs/screenshots/06_smartphone-1.png" width="220">
+        <img src="./docs/screenshots/06_smartphone-1.png">
       </a>
     </td>
     <td align="center">
       <a href="./docs/screenshots/07_smartphone-2.png">
-        <img src="./docs/screenshots/07_smartphone-2.png" width="220">
+        <img src="./docs/screenshots/07_smartphone-2.png">
       </a>
     </td>
     <td align="center">
       <a href="./docs/screenshots/08_smartphone-3.png">
-        <img src="./docs/screenshots/08_smartphone-3.png" width="220">
+        <img src="./docs/screenshots/08_smartphone-3.png">
       </a>
     </td>
   </tr>
