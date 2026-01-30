@@ -215,6 +215,134 @@ $env:SPRING_PROFILES_ACTIVE="local"
 
 ---
 
+## 7. ディレクトリ構成
+
+### 7.1 リポジトリ ルート（概要）
+
+```txt
+multi-opponent-rps/
+  backend/
+  frontend/
+```
+
+### 7.2 backend（詳細）
+
+```txt
+backend/
+  .dockerignore
+  .gitignore
+  .gitattributes
+  .groovylintrc.json
+  Dockerfile
+  build.gradle
+  settings.gradle
+  gradlew
+  gradlew.bat
+  gradle/
+    wrapper/
+      gradle-wrapper.jar
+      gradle-wrapper.properties
+
+  src/
+    main/
+      java/
+        com/github/seiyamatsuoka/multiopponentrps/
+          MultiOpponentRpsApplication.java
+          config/
+            AppCorsProperties.java
+            CorsConfig.java
+          error/
+            ApiExceptionHandler.java
+            ApiErrorResponse.java
+          health/
+            HealthController.java
+            HealthResponse.java
+          rps/
+            RpsController.java
+            RpsService.java
+            dto/
+              RpsRequest.java
+              RpsResponse.java
+            model/
+              Hand.java
+              Result.java
+              RoundResult.java
+              Summary.java
+      resources/
+        application.yml
+        application-local.yml.example
+        application-local.yml
+
+    test/
+      java/
+        com/github/seiyamatsuoka/multiopponentrps/
+          SmokeTest.java
+          config/
+            CorsConfigTest.java
+          error/
+            RpsErrorHandlingTest.java
+          health/
+            HealthControllerTest.java
+          rps/
+            RpsControllerTest.java
+            RpsServiceTest.java
+            dto/
+              RpsRequestValidationTest.java
+```
+
+### 7.3 frontend（詳細）
+
+```txt
+frontend/
+  .env
+  .env.example
+  .gitignore
+  .prettierignore
+  .prettierrc
+  eslint.config.js
+  index.html
+  package.json
+  pnpm-lock.yaml
+  tsconfig.json
+  tsconfig.app.json
+  tsconfig.node.json
+  vite.config.ts
+  vitest.config.ts
+  vercel.json
+
+  src/
+    main.tsx
+    App.tsx
+    vite-env.d.ts
+    theme/
+      theme.ts
+    config/
+      env.ts
+    api/
+      devtools.ts
+      http.ts
+      http.test.ts
+      types.ts
+      healthApi.ts
+      rpsApi.ts
+    pages/
+      rps/
+        RpsPage.tsx
+        hooks/
+          useRpsPage.ts
+        components/
+          ServerStatusCard.tsx
+          ControlsCard.tsx
+          HandSelector.tsx
+          OpponentsSelect.tsx
+          ResultsCard.tsx
+          ResultRow.tsx
+    styles/
+      index.css
+```
+
+---
+
 ## 8. ローカル動作
 
 ### 8.1 backend 起動（例）
