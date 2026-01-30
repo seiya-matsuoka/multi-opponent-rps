@@ -104,3 +104,42 @@ Controller は、入力の受け取り・`@Valid`・Service 呼び出し・DTO �
   - `allowCredentials(false)`（cookie 前提にしない）
 
 ---
+
+## 3. バックエンド設定（application.yml / 環境変数 / profiles）
+
+### 3.1 設定ファイル運用
+
+- `application.yml`：コミット（公開 OK な値）
+- `application-local.yml.example`：コミット（テンプレ）
+- `application-local.yml`：gitignore（ローカル専用の上書き）
+
+### 3.2 プロファイル切り替え
+
+- ローカルで `application-local.yml` を有効にしたい場合：
+  - `SPRING_PROFILES_ACTIVE=local` を設定して起動する
+
+例（PowerShell）：
+
+```powershell
+$env:SPRING_PROFILES_ACTIVE="local"
+./gradlew bootRun
+```
+
+### 3.3 環境変数
+
+- `ALLOWED_ORIGINS`
+  - 本番（Render）では Vercel の URL を設定して CORS 許可する
+- その他（必要に応じて）
+  - Render 側の `PORT` 等はプラットフォーム側で付与される想定（Dockerfile/Run 設定に合わせる）
+
+---
+
+## 4. Dockerfile / デプロイ設計（バックエンド：Render）
+
+- build ステージ
+  - Gradle wrapper でビルドして jar を生成
+- runtime ステージ
+  - JRE イメージで起動
+  - 非 root ユーザーで実行（`appuser`）
+
+---
