@@ -206,3 +206,42 @@ $env:SPRING_PROFILES_ACTIVE="local"
   - `src/api/http.test.ts`：`createRequestJson` の挙動（200/400 等）
 
 ---
+
+## 6. デプロイ設計（フロント：Vercel）
+
+- Vercel へデプロイ
+- `vercel.json` の rewrites で SPA の直接アクセスを許可（`/` に寄せる）
+- 環境変数 `VITE_API_BASE_URL` を Vercel 側で設定して本番バックエンドへ接続
+
+---
+
+## 8. ローカル動作
+
+### 8.1 backend 起動（例）
+
+```bash
+cd backend
+./gradlew bootRun
+```
+
+### 8.2 backend テスト（例）
+
+```bash
+cd backend
+./gradlew test
+```
+
+### 8.3 frontend 起動（例）
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
+
+### 8.4 frontend テスト（例）
+
+```bash
+cd frontend
+pnpm test
+```
