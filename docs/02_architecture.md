@@ -20,3 +20,87 @@
   - 許可オリジンは環境変数で制御（本番・開発で切り替え）
 
 ---
+
+## 2. バックエンド設計（Spring Boot / REST API）
+
+### 2.1 技術スタック
+
+- Spring Boot：`3.5.9`（Gradle）
+- Java：21
+- 主な starter
+  - `spring-boot-starter-web`
+  - `spring-boot-starter-validation`
+- テスト：JUnit5（`spring-boot-starter-test`）
+
+### 2.2 パッケージ構成（役割で分割）
+
+ベースパッケージ：
+
+- `com.github.seiyamatsuoka.multiopponentrps`
+
+役割別パッケージ：
+
+- `config`
+  - `AppCorsProperties`：CORS 設定値の受け口（ConfigurationProperties）
+  - `CorsConfig`：Spring MVC の CORS 設定
+- `health`
+  - `HealthController`：`GET /api/health`
+  - `HealthResponse`：レスポンス DTO
+- `rps`
+  - `RpsController`：`POST /api/rps`
+  - `RpsService`：じゃんけんロジック（対戦結果生成）
+  - `dto/RpsRequest`, `dto/RpsResponse`：リクエスト/レスポンス DTO
+  - `model/*`：ドメイン（Hand/Result/RoundResult/Summary）
+- `error`
+  - `ApiExceptionHandler`：例外ハンドリング（統一 JSON）
+  - `ApiErrorResponse`：エラー JSON のレスポンスモデル
+
+### 2.3 API 設計
+
+#### 2.3.1 GET `/api/health`
+
+- 目的：Render のコールドスタートを含む「起動確認」
+- レスポンス：`{ "status": "ok" }`
+
+#### 2.3.2 POST `/api/rps`
+
+- 目的：ユーザーの手＋相手人数から、相手ごとの結果と集計を返す
+- バリデーション：Bean Validation を使用（`@Valid` + DTO 制約）
+  - `hand`：必須（`@NotNull`）
+  - `opponents`：範囲（`@Min(1)` / `@Max(10)`）
+- レスポンス構造
+  - `playerHand`：ユーザーの手
+  - `opponents`：対戦人数
+  - `results[]`：相手ごとの結果（相手 index・相手の手・勝敗）
+  - `summary`：集計（win/lose/draw）
+
+### 2.4 じゃんけんロジック（Service）
+
+- `RpsService` が責務を持つ
+  - 相手の手の生成（Random）
+  - `Result`（WIN/LOSE/DRAW）の判定
+  - `RoundResult` の配列生成
+  - `Summary` の集計生成
+
+Controller は、入力の受け取り・`@Valid`・Service 呼び出し・DTO 返却のみ。
+
+### 2.5 エラー/例外設計
+
+- `ApiExceptionHandler`（ControllerAdvice）で統一レスポンスに変換する
+- 対象
+  - DTO バリデーションエラー（`MethodArgumentNotValidException`）
+  - enum 変換失敗などの入力不正（`HttpMessageNotReadableException`）
+  - その他（`Exception`）は 500 として統一
+- 統一レスポンス：`ApiErrorResponse`
+  - `message`：ユーザー向けの要約メッセージ
+  - `details`：項目別の詳細（配列）
+
+### 2.6 CORS 設計
+
+- `AppCorsProperties`（`app.cors.*`）で allowed origins を受け取る
+- `CorsConfig` で Spring MVC の CORS を構成
+  - 許可オリジン：`app.cors.allowed-origins`（空なら未許可）
+  - 主要メソッドを許可（GET/POST/OPTIONS など）
+  - `allowCredentials(false)`（cookie 前提にしない）
+
+---
