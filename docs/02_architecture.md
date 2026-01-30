@@ -143,3 +143,66 @@ $env:SPRING_PROFILES_ACTIVE="local"
   - 非 root ユーザーで実行（`appuser`）
 
 ---
+
+## 5. フロントエンド設計（Vite + React + TS）
+
+### 5.1 技術スタック
+
+- React：19
+- TypeScript：5
+- Vite：7
+- UI：
+  - MUI（`@mui/material`）
+  - Tailwind CSS
+- テスト：
+  - Vitest（ユニットテスト）
+
+### 5.2 環境変数（.env 運用）
+
+- `.env`：gitignore（ローカル専用）
+- `.env.example`：コミット（テンプレ）
+
+主要キー：
+
+- `VITE_API_BASE_URL`
+  - 例：`http://localhost:8080`（ローカル）
+  - 例：`https://<render-app>.onrender.com`（本番）
+
+※ Vite は `VITE_` prefix のみをフロントに注入する。
+
+### 5.3 API クライアント設計
+
+- `src/api/http.ts`
+  - `createRequestJson()` を中心に、fetch を共通化
+  - AbortController による timeout
+  - `ApiError` でステータス・レスポンスボディを保持
+  - JSON / text の分岐（`Content-Type` を見て解釈）
+- `src/api/healthApi.ts`
+  - `getHealth()`：コールドスタート対策（起動確認）
+- `src/api/rpsApi.ts`
+  - `postRps()`：`RpsRequest` → `RpsResponse` を呼び出し
+
+### 5.4 画面（RPS ページ）の構成方針
+
+- 画面は「ページ + フック + UI 部品」で分割する
+- 状態管理は軽量に、ページ専用 hook に寄せる（Redux 等は不要）
+
+構成：
+
+- `RpsPage.tsx`：ページ組み立て（カードの配置）
+- `hooks/useRpsPage.ts`：状態と操作（warmup/execute、入力状態、結果、エラー等）
+- `components/*`：UI 部品（MUI Card/Stack 等で分割）
+
+### 5.5 サーバー起動（warmup）設計
+
+- Render のコールドスタートを想定し、フロントから起動確認を行える
+- UI 上は「サーバー起動」ボタンで `GET /api/health` を呼ぶ
+- 起動中/成功/失敗の状態（Chip など）を表示
+
+### 5.6 フロントのテスト（Vitest）
+
+- UI ではなく「HTTP 共通処理」の例外系を最小で担保
+- 対象
+  - `src/api/http.test.ts`：`createRequestJson` の挙動（200/400 等）
+
+---
